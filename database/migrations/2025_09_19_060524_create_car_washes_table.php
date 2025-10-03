@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('type_id')->constrained('car_wash_types')->onDelete('cascade');
             $table->string('carwash_code')->unique();
             $table->string('name');
+            $table->string('thumbnail')->nullable();
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2);

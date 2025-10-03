@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('booking_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2);
-            $table->enum('method', ['cash', 'bank_transfer', 'e_wallet']);
+            $table->string('method');
             $table->enum('status', ['unpaid', 'paid', 'failed'])->default('unpaid');
             $table->timestamp('transaction_date')->nullable();
             $table->softDeletes();

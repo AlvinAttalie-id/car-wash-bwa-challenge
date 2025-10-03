@@ -17,6 +17,7 @@ class CarWash extends Model
         'slug',
         'description',
         'price',
+        'thumbnail', // ✅ tambahkan ini
     ];
 
     protected static function boot()
@@ -39,6 +40,18 @@ class CarWash extends Model
                 $model->slug = Str::slug($model->name);
             }
         });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getThumbnailUrlAttribute()
+    {
+        return $this->thumbnail
+            ? asset('storage/' . $this->thumbnail)
+            : null;
     }
 
     public function type()

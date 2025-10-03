@@ -18,15 +18,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
     Route::get('/me', [AuthController::class, 'me'])->name('api.me');
 
-    // Protected resource routes
+    // User Profile
     Route::get('/user', [UserController::class, 'profile'])->name('api.user.profile');
 
-    Route::get('/bookings', [BookingController::class, 'index'])->name('api.bookings.index');
-    Route::post('/bookings', [BookingController::class, 'store'])->name('api.bookings.store');
-
-    Route::post('/payments', [PaymentController::class, 'store'])->name('api.payments.store');
+    Route::apiResource('bookings', BookingController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::apiResource('payments', PaymentController::class)->only(['index', 'store', 'show']);
 });
 
-// Public routes (tidak butuh login)
-Route::get('/car-washes', [CarController::class, 'index'])->name('api.cars.index');
-Route::get('/discounts', [DiscountController::class, 'index'])->name('api.discounts.index');
+Route::apiResource('cars', CarController::class)->only(['index', 'show']);
+Route::apiResource('car-washes', CarWashController::class)->only(['index', 'show']);
+Route::apiResource('discounts', DiscountController::class)->only(['index', 'show']);
