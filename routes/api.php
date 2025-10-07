@@ -9,22 +9,23 @@ use App\Http\Controllers\Api\CarWashController;
 use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\PaymentController;
 
+// Auth
 Route::middleware('guest')->group(function () {
-    Route::post('/login', [AuthController::class, 'login'])->name('api.login');
-    Route::post('/register', [AuthController::class, 'register'])->name('api.register');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
+// Public APIs
+Route::apiResource('car-washes', CarWashController::class)->only(['index', 'show']);
+Route::apiResource('discounts', DiscountController::class)->only(['index', 'show']);
+
+// Protected APIs
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
-    Route::get('/me', [AuthController::class, 'me'])->name('api.me');
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
 
-    // User Profile
-    Route::get('/user', [UserController::class, 'profile'])->name('api.user.profile');
-
+    Route::get('/user', [UserController::class, 'profile']);
+    Route::apiResource('cars', CarController::class)->only(['index', 'show']);
     Route::apiResource('bookings', BookingController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::apiResource('payments', PaymentController::class)->only(['index', 'store', 'show']);
 });
-
-Route::apiResource('cars', CarController::class)->only(['index', 'show']);
-Route::apiResource('car-washes', CarWashController::class)->only(['index', 'show']);
-Route::apiResource('discounts', DiscountController::class)->only(['index', 'show']);

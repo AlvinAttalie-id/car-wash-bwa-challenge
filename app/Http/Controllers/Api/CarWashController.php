@@ -9,35 +9,32 @@ use Illuminate\Http\Request;
 
 class CarWashController extends Controller
 {
-    /**
-     * Tampilkan semua car wash (public).
-     */
     public function index(Request $request)
     {
         $query = CarWash::with('type');
 
-        // Optional filter by type
         if ($request->has('type_id')) {
             $query->where('type_id', $request->type_id);
         }
 
-        // Optional search by name
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $carWashes = $query->latest()->paginate(10);
+        if ($request->boolean('all')) {
+            $carWashes = $query->get();
+            return CarWashResource::collection($carWashes);
+        }
 
+        $carWashes = $query->latest()->paginate(10);
         return CarWashResource::collection($carWashes);
     }
 
-    /**
-     * Detail car wash by id/slug.
-     */
-    public function show($slug)
+    public function show($identifier)
     {
         $carWash = CarWash::with('type')
-            ->where('slug', $slug)
+            ->where('slug', $identifier)
+            ->orWhere('id', $identifier)
             ->firstOrFail();
 
         return new CarWashResource($carWash);
