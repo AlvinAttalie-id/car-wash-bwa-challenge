@@ -1,5 +1,7 @@
 <?php
 
+use Laravel\Socialite\SocialiteServiceProvider;
+
 return [
 
     /*
@@ -122,5 +124,10 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    // 'providers' => [
+    //     SocialiteServiceProvider::class,
+    // ],
+
 
 ];

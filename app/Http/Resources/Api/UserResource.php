@@ -19,6 +19,8 @@ class UserResource extends JsonResource
             'phone'      => $this->phone,
             'birth_date' => $this->birth_date?->format('Y-m-d'),
             'address'    => $this->address,
+            'google_id' => $this->google_id,
+            'avatar'    => $this->avatar,
 
             // Roles dari Spatie
             'roles'      => $this->whenLoaded('roles', fn() => $this->getRoleNames()),
